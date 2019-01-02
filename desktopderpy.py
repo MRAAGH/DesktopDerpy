@@ -60,7 +60,7 @@ class Derpy:
 		self.rightclickMenu = Gtk.Menu()
 		#addMenuItem(rightclickMenu,'Backup',self.extra_backup)
 		addMenuItem(self.rightclickMenu,'Sleep',self.sleep_toggle)
-		addMenuItem(self.rightclickMenu,'Quit',self.show_quit_dialog)
+		addMenuItem(self.rightclickMenu,'Quit',Gtk.main_quit)
 		
 		self.window.connect('button-press-event',self.button_press)
 		self.window.connect('button-release-event',self.button_release)
@@ -196,12 +196,7 @@ class Derpy:
 		self.gif.set_from_file(PROGDIR+name)
 		self.gif.show()
 		print(PROGDIR+name)
-	def show_quit_dialog(self,widget):
-		dialog = Gtk.MessageDialog(None,0,Gtk.MessageType.QUESTION,Gtk.ButtonsType.YES_NO,'Are you sure you want to quit Derpy?')
-		response = dialog.run()
-		dialog.destroy()
-		if response == Gtk.ResponseType.YES:
-			Gtk.main_quit()
+
 	def main(self):
 		Gtk.main()
 if __name__ == '__main__':
