@@ -132,12 +132,17 @@ class Derpy:
 		if not (self.sleep or self.drag):
 			oldXVel = self.xVel
 			oldYVel = self.yVel
-			if random.randint(1,2)==1:
-				self.xVel = random.choice([-2,0,2])
-			if random.randint(1,2)==1:
-				self.yVel = random.choice([-2,0,2])
-			if oldXVel!=self.xVel or oldYVel!=self.yVel:
-				self.set_actions()
+			frozen = False
+			if oldXVel == 0 and oldYVel == 0:
+				if random.randint(1,4) > 1:
+					frozen = True
+			if not frozen:
+				if random.randint(1,2)==1:
+					self.xVel = random.choice([-2,0,2])
+				if random.randint(1,2)==1:
+					self.yVel = random.choice([-2,0,2])
+				if oldXVel!=self.xVel or oldYVel!=self.yVel:
+					self.set_actions()
 			if not self.sleep:
 				self.set_rand_event_timer()
 		return False
