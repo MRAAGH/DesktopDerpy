@@ -40,10 +40,11 @@ class Derpy:
 		self.drag = False
 		self.xPos = (Gdk.Screen.get_default().get_width() / 2) - (self.width / 2)
 		self.yPos = (Gdk.Screen.get_default().get_height() / 2) - (self.height / 2)
+		self.lazy = 3
 		
 		
 		self.wingActions = ['stand','walking']
-		self.actionsStand = ['hover','hover','hoverupsidedown','sleep','stand','stand','sit','sit']
+		self.actionsStand = ['hover','hover','hoverupsidedown','sleep','stand','stand','sit','sit','sit','sit','sit']
 		self.actionsMove = ['fly','fly','flyupsidedown','walking','walking','walking','walking']
 		self.actionsFly = ['fly','fly','fly','flyupsidedown']
 		
@@ -134,15 +135,22 @@ class Derpy:
 			oldYVel = self.yVel
 			frozen = False
 			if oldXVel == 0 and oldYVel == 0:
-				if random.randint(1,4) > 1:
+				if random.randint(1, self.lazy) > 1:
 					frozen = True
+					limit = 30 if self.action == 'sit' else 10
+					if self.lazy < limit:
+						self.lazy += 1
+						if self.lazy == limit:
+							print('Derpy is a lazy pony')
+				else:
+					self.lazy = 3
 			if not frozen:
 				if random.randint(1,2)==1:
 					self.xVel = random.choice([-2,0,2])
 				if random.randint(1,2)==1:
 					self.yVel = random.choice([-2,0,2])
-				if oldXVel!=self.xVel or oldYVel!=self.yVel:
-					self.set_actions()
+			if oldXVel!=self.xVel or oldYVel!=self.yVel or not frozen:
+				self.set_actions()
 			if not self.sleep:
 				self.set_rand_event_timer()
 		return False
